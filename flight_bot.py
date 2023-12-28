@@ -20,11 +20,11 @@ def check_perms(ctx):
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):
-        ctx.channel.send("Command doesn't exist")
+        await ctx.channel.send("Command doesn't exist")
     elif isinstance(error, commands.CheckFailure):
-        ctx.channel.send("You don't have perms to use this command")
+        await ctx.channel.send("You don't have perms to use this command")
     else:
-        ctx.channel.send("@.saph. pls help me I had an unhandled error")
+        await ctx.channel.send("@.saph. pls help me I had an unhandled error")
         print(error)
 
 
