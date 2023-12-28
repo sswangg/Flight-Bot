@@ -12,9 +12,29 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="f!", intents=intents)
 
 
+def has_perms():
+    def predicate(interaction: discord.Interaction) -> bool:
+        return interaction.user.id == 363690578950488074 or \
+               "mod" in [r.name for r in interaction.user.roles]
+    return bot.check(predicate)
+
+
+# CheckFailure
+@bot.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandNotFound):
+        ctx.channel.send("Command doesn't exist")
+    elif isinstance(error, commands.CheckFailure):
+        ctx.channel.send("You don't have perms to use this command")
+    else:
+        ctx.channel.send("@.saph. pls help me I had an unhandled error")
+        print(error)
+
+
 @bot.command(brief="Use the GPT-4 api to summarize the last 150 messages in a channel",
              help="Use the GPT-4 api to summarize the last 150 messages in a channel, ping Saph"
                   "or something if you need to summarize more.")
+@has_perms
 async def summarize(ctx, channel_id):
     channel = await ctx.guild.fetch_channel(channel_id)
     messages = []
