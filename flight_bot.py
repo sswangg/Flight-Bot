@@ -12,9 +12,11 @@ intents.message_content = True
 bot = commands.Bot(command_prefix="f!", intents=intents)
 
 
-@bot.command()
-async def summarize(ctx, id):
-    channel = await ctx.guild.fetch_channel(id)
+@bot.command(brief="Use the GPT-4 api to summarize the last 150 messages in a channel",
+             help="Use the GPT-4 api to summarize the last 150 messages in a channel, ping Saph"
+                  "or something if you need to summarize more.")
+async def summarize(ctx, channel_id):
+    channel = await ctx.guild.fetch_channel(channel_id)
     messages = []
 
     async for message in channel.history(limit=150):
