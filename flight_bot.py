@@ -31,16 +31,18 @@ async def on_command_error(ctx, error):
 @commands.check(check_perms)
 async def summarize(ctx, channel_id):
     channel = await ctx.guild.fetch_channel(channel_id)
-    messages = []
+    chat_log = []
 
     async for message in channel.history(limit=150):
+        parsed = f"{message.author.display_name}: {message.content}"
         if message.reference is not None:
             replied_message = await channel.fetch_message(message.reference.message_id)
-            messages.append(f"{message.author.display_name}: {message.content} (replying to: {replied_message.content})")
-        else:
-            messages.append(f"{message.author.display_name}: {message.content}")
+            parsed += f" (replying to: {replied_message.content})"
+        if message.attachments:
+            parsed += " (attachment urls: " + ", ".join([a.url for a in message.attachments]) + ")"
+        chat_log.append(parsed)
 
-    messages = "Thread Name - " + channel.name + "\n" + "\n".join(messages[1:][::-1])
+    messages = "Thread Name - " + channel.name + "\n" + "\n".join(chat_log[::-1])
     summary = generate_summary(messages)
     with open("summary.txt", "w") as file:
         file.write(summary)
@@ -55,16 +57,18 @@ async def summarize(ctx, channel_id):
 @commands.is_owner()
 async def read(ctx, channel_id):
     channel = await ctx.guild.fetch_channel(channel_id)
-    messages = []
+    chat_log = []
 
     async for message in channel.history(limit=150):
+        parsed = f"{message.author.display_name}: {message.content}"
         if message.reference is not None:
             replied_message = await channel.fetch_message(message.reference.message_id)
-            messages.append(f"{message.author.display_name}: {message.content} (replying to: {replied_message.content})")
-        else:
-            messages.append(f"{message.author.display_name}: {message.content}")
+            parsed += f" (replying to: {replied_message.content})"
+        if message.attachments:
+            parsed += " (attachment urls: " + ", ".join([a.url for a in message.attachments]) + ")"
+        chat_log.append(parsed)
 
-    messages = "Thread Name - " + channel.name + "\n" + "\n".join(messages[1:][::-1])
+    messages = "Thread Name - " + channel.name + "\n" + "\n".join(chat_log[::-1])
     print(messages)
 
 

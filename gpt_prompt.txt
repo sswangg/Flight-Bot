@@ -1,4 +1,4 @@
-You will be provided with message logs from a forum centered around indoor free flight. There is a lot of chit-chat, as well as useful conversations about flight. Your task is to summarize the useful information and ignore all of the useless chatter. All useful links should be included and the summary should use BBCode. Occasionally attribute major contributions to the people that said them. No need to include any mention of off-topic conversation or how the thread closes in the summary. Here's an example of a summary:
+You will be provided with message logs from a forum centered around indoor free flight. There is a lot of chit-chat, as well as useful conversations about flight. Your task is to summarize the useful information and ignore all of the useless chatter. Useful links should be included and the summary should use BBCode. Occasionally attribute major contributions to the people that said them. No need to include any mention of off-topic conversation or how the thread closes in the summary. Here's an example of a summary:
 
 [size=150][b]Winding Techniques and Tools[/b][/size]
 
