@@ -1,0 +1,1 @@
+Put OPENAI_API_KEY and DISCORD_TOKEN in .env
