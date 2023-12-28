@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 import os
+import traceback
 from dotenv import load_dotenv
 from gpt4_summary import generate_summary
 
@@ -19,18 +20,14 @@ def check_perms(ctx):
 # CheckFailure
 @bot.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.CommandNotFound):
-        await ctx.channel.send("Command doesn't exist")
-    elif isinstance(error, commands.CheckFailure):
-        await ctx.channel.send("You don't have perms to use this command")
-    else:
-        await ctx.channel.send("@.saph. pls help me I had an unhandled error")
-        print(error)
+    print("".join(traceback.format_exception(type(error), error, error.__traceback__)))
+    await ctx.channel.send(error.args[0])
 
 
 @bot.command(brief="Use the GPT-4 api to summarize the last 150 messages in a channel",
              help="Use the GPT-4 api to summarize the last 150 messages in a channel, ping Saph"
-                  "or something if you need to summarize more.")
+                  "or something if you need to summarize more.",
+             aliases=['s', 'sum'])
 @commands.check(check_perms)
 async def summarize(ctx, channel_id):
     channel = await ctx.guild.fetch_channel(channel_id)
