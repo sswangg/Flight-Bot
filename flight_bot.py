@@ -50,4 +50,22 @@ async def summarize(ctx, channel_id):
                        "and may not be completely accurate.", file=discord.File(file, filename="summary.txt"))
 
 
+@bot.command(help="Parse channel history for testing purposes",
+             aliases=['r'])
+@commands.is_owner()
+async def read(ctx, channel_id):
+    channel = await ctx.guild.fetch_channel(channel_id)
+    messages = []
+
+    async for message in channel.history(limit=150):
+        if message.reference is not None:
+            replied_message = await channel.fetch_message(message.reference.message_id)
+            messages.append(f"{message.author.display_name}: {message.content} (replying to: {replied_message.content})")
+        else:
+            messages.append(f"{message.author.display_name}: {message.content}")
+
+    messages = "Thread Name - " + channel.name + "\n" + "\n".join(messages[1:][::-1])
+    print(messages)
+
+
 bot.run(TOKEN)
