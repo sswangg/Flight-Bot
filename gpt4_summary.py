@@ -1,0 +1,78 @@
+from openai import OpenAI
+from dotenv import load_dotenv
+
+load_dotenv()
+client = OpenAI()
+example = """
+[size=150][b]Winding Techniques and Tools[/b][/size]
+
+[list]
+[b]General Tips for Winding:[/b]
+[list]
+[*]Saph provided a link to Coach Brian's YouTube tutorial on how to properly wind the plane rubber: [url=https://youtu.be/-9sbbYRi5r8?si=1ryfpU1uwMoC2hiq]How to Wind a Plane Rubber Tutorial[/url].
+[/list]
+[/list]
+
+[size=150][b]Torque Meters[/b][/size]
+[list]
+[*][b]Discussion on Torque Meter Importance:[/b]
+[list]
+[*].bananasaurus. emphasized the importance of using a torque meter to ensure precision in the winding process.
+[/list]
+
+[*][b]Recommended Torque Meters:[/b]
+[list]
+[*]A few links to recommended torque meters were shared. Here are the recommendations:
+[list]
+[*][url=https://www.lasercutplanes.com/product/dirt-cheap-torque-meter/]Laser Cut Planes Torque Meter[/url]
+[*][url=https://jhaerospace.com/product/torque-meter/]J&H Aerospace Torque Meter[/url]
+[*][url=https://www.indoorffsupply.com/shop/simple-torque-meter]Indoor FF Supply Simple Torque Meter[/url]
+[/list]
+[/list]
+
+[*][b]Torque Meter Reviews and Opinions:[/b]
+[list]
+[*]Saph mentioned that the torque meter from Freedom Flight Models is considered flimsy and is not recommended.
+[*].bananasaurus. discussed the utility of a digital torque meter and noted that it is accurate and convenient, but not necessary for Science Olympiad (SciOly). However, for other categories such as Limited Penny Plane (LPP), A6, etc., it can be more beneficial.
+[/list]
+
+[*][b]Building a Torque Meter:[/b]
+[list]
+[*].bananasaurus. gave advice on building a torque meter, indicating a vertical load cell is preferable to a horizontal one due to better comparability of torque readings with others.
+[/list]
+
+[*][b]Specifications for Digital Torque Meters:[/b]
+[list]
+[*]When asked about the precision of the digital torque meter, .bananasaurus. indicated it has 4 decimals of precision. The maximum torque tolerance noted was up to 2 in/oz, which should be more than sufficient unless flying outdoors.
+[/list]
+[/list]
+
+[size=150][b]Rubber Preparation[/b][/size]
+[list]
+[*][b]Rubber Tying Technique:[/b]
+[list]
+[*]Saph shared a YouTube video that demonstrates how to tie rubbers to achieve the perfect weight: [url=https://youtu.be/5u4ghL21ij8?si=nCSjxkciPzd-K_RL]Tying Rubbers for Flight[/url]
+[/list]
+
+[*][b]Hemostats for Rubber Handling:[/b]
+[list]
+[*]Saph mentioned getting a pair of hemostats (referred to as 'hemos') for only $3 at a local hardware store, which can be useful for handling the rubber.
+[/list]
+[/list]"""
+
+
+def generate_summary(text):
+    completion = client.chat.completions.create(
+      model="gpt-4-1106-preview",
+      messages=[
+        {"role": "system", "content": "You will be provided with message logs from a forum centered around"
+                                      "indoor free flight. There is a lot of chit-chat, as well as useful conversations"
+                                      "about flight. Your task is to summarize the useful information and ignore all of"
+                                      "the useless chatter. All useful links should be included and the summary should"
+                                      "use BBCode. Occasionally attribute major contributions to the people that "
+                                      "said them. No need to include any mention of off-topic conversation or how the "
+                                      "thread closes in the summary. Here's an example of a summary:" + example},
+        {"role": "user", "content": text}
+      ]
+    )
+    return completion.choices[0].message.content
