@@ -25,7 +25,7 @@ async def on_command_error(ctx, error):
 
 
 @bot.command(brief="Use the GPT-4 api to summarize the last 150 messages in a channel",
-             help="Use the GPT-4 api to summarize the last 150 messages in a channel, ping Saph"
+             help="Use the GPT-4 api to summarize the last 150 messages in a channel, ping .saph."
                   "or something if you need to summarize more.",
              aliases=['s', 'sum'])
 @commands.check(check_perms)
@@ -40,7 +40,7 @@ async def summarize(ctx, channel_id):
         else:
             messages.append(f"{message.author.display_name}: {message.content}")
 
-    messages = "\n".join(messages[1:][::-1])
+    messages = "Thread Name - " + channel.name + "\n" + "\n".join(messages[1:][::-1])
     summary = generate_summary(messages)
     with open("summary.txt", "w") as file:
         file.write(summary)
